@@ -3,11 +3,14 @@ const albumRoute = require('./albumRoute');
 const authRoute = require('./authRoute');
 const playlistRoute = require('./playlistRoute');
 
+const uploadRoute = require('./uploadRoute');
+
 const routes = [
     songRoute,
     albumRoute,
     authRoute,
-    playlistRoute
+    playlistRoute,
+    uploadRoute
 ]
 
 const router = (app)=> {

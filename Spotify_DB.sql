@@ -4,13 +4,13 @@ USE spotify;
 
 CREATE TABLE ROLE (
 	ROLE_ID INT NOT NULL AUTO_INCREMENT,
-	ROLE_NAME NVARCHAR(255) NOT NULL UNIQUE,
+	ROLE_NAME VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (ROLE_ID)
 );
 
 CREATE TABLE USER (
 	USER_ID INT NOT NULL AUTO_INCREMENT,
-	FULLNAME NVARCHAR(255) NOT NULL,
+	FULLNAME VARCHAR(255) NOT NULL,
 	EMAIL VARCHAR(255) NOT NULL UNIQUE,
 	PASSWORD VARCHAR(255) NOT NULL,
 	IMAGE VARCHAR(255),
@@ -20,7 +20,7 @@ CREATE TABLE USER (
 
 CREATE TABLE PLAYLIST (
 	PLAYLIST_ID INT NOT NULL AUTO_INCREMENT,
-	TITLE NVARCHAR(255) NOT NULL,
+	TITLE VARCHAR(255) NOT NULL,
     IMAGE VARCHAR(255),
 	USER_ID INT,
 	PRIMARY KEY (PLAYLIST_ID)
@@ -28,8 +28,8 @@ CREATE TABLE PLAYLIST (
 
 CREATE TABLE SONG (
 	SONG_ID INT NOT NULL AUTO_INCREMENT,
-	TITLE NVARCHAR(255) NOT NULL,
-    ARTIST_NAMES NVARCHAR(255),
+	TITLE VARCHAR(255) NOT NULL,
+    ARTIST_NAMES VARCHAR(255),
     IMAGE	VARCHAR(2000),
 	SONG_URL VARCHAR(2000) NOT NULL,
     RELEASE_DATE TIMESTAMP DEFAULT NOW(),
@@ -44,17 +44,17 @@ CREATE TABLE PLAYLIST_SONG (
 
 CREATE TABLE ARTIST (
 	ARTIST_ID INT NOT NULL AUTO_INCREMENT,
-	FULLNAME NVARCHAR(255) NOT NULL,
-    DESCRIPTION NVARCHAR(255),
+	FULLNAME VARCHAR(255) NOT NULL,
+    DESCRIPTION VARCHAR(255),
 	IMAGE VARCHAR(255),
-    GENDER NVARCHAR(10) CHECK (GENDER = N'Nam' OR GENDER = N'Nữ'),
+    GENDER VARCHAR(10) CHECK (GENDER = N'Nam' OR GENDER = N'Nữ'),
     PRIMARY KEY (ARTIST_ID)
 );
 
 CREATE TABLE ALBUM (
 	ALBUM_ID INT NOT NULL AUTO_INCREMENT,
-    TITLE NVARCHAR(255) NOT NULL,
-	DESCRIPTION NVARCHAR(255),
+    TITLE VARCHAR(255) NOT NULL,
+	DESCRIPTION VARCHAR(255),
     IMAGE VARCHAR(255) NOT NULL,
     RELEASE_DATE TIMESTAMP DEFAULT NOW(),
     TOTAL_LISTEN INT,
@@ -153,6 +153,11 @@ INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE) VALUES
 ('Sơn Tung', 'st@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg');
 
 
+
+
+
+
+
 -- INSERT ALBUM
 select * from album;
 INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
@@ -161,26 +166,103 @@ INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
 INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
 ('2000s K-Pop', '2000s và những bản Hit K-Pop hay nhất', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/a/b/8/2ab897cbf80e6aed22a64f19e5ca029f.jpg', NOW(), 2);
 
+INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Những Bài Hát Hay Nhất Của Sơn Tùng M-TP', 'Tuyển tập những ca khúc hay nhất của Sơn Tùng M-TP', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/3/9/e/c/39ec11680e2b34f7b58d271d468ae763.jpg', NOW(), 5);
 
-select * from SONG;
+INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Playlist Này Chill Phết', 'Va vào những giai điệu thư giãn của V-Pop', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/4/c/c/c/4ccc7780abb5e8e2de84218f721b7ad3.jpg', NOW(), 3);
+
+INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Nhẹ Nhàng Cùng V-Pop', 'Thả mình cùng những giai điệu V-Pop nhẹ nhàng', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/5/c/f/25cf63ad362dc25bbe7d65a9ae94e803.jpg', NOW(), 3);
+
+
+
+
 -- INSERT SONG
 INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES
-('Turn it up', 'Amee', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/0/4/e/5/04e561b01b9d88e709199091cba33d50.jpg', 'http://api.mp3.zing.vn/api/streaming/audio/ZU0DEWAW/320', NOW()),
-('Đi đu đưa đi', 'Bích Phương', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/0/1/8/1/0181fd0a3b9bc53bfb48f7e5e3d9b080.jpg', 'http://api.mp3.zing.vn/api/streaming/audio/6IC6ODOF/320', NOW());
+('Turn it up', 'Amee', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/0/4/e/5/04e561b01b9d88e709199091cba33d50.jpg', 'https://res.cloudinary.com/thangtrn01/video/upload/v1682325132/spotify/songs/turn-it-up_jjxtwn.mp3', NOW()),
+('Đi đu đưa đi', 'Bích Phương', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/cover/0/1/8/1/0181fd0a3b9bc53bfb48f7e5e3d9b080.jpg', 'https://res.cloudinary.com/thangtrn01/video/upload/v1682325167/spotify/songs/Di-Du-Dua-Di-Bich-Phuong_oyu2pu.mp3', NOW());
 
 INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES
-('Sick Enough To Die', 'MC Mong, Mellow', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/d/8/d817b457b10469fb62deb23890d7ec5b_1415074614.jpg', 'http://api.mp3.zing.vn/api/streaming/audio/ZWZBIIBD/320', NOW()),
-('Haru Haru', 'BIGBANG', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/3/1/31c0bc178874f507e52ccb8a84812da7_1449720766.jpg', 'http://api.mp3.zing.vn/api/streaming/audio/ZWZBWOE9/320', NOW());
+('Sick Enough To Die', 'MC Mong, Mellow', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/d/8/d817b457b10469fb62deb23890d7ec5b_1415074614.jpg', 'https://res.cloudinary.com/thangtrn01/video/upload/v1682325172/spotify/songs/Sick-Enough-To-Die-MC-Mong-Mellow_lvigp0.mp3', NOW()),
+('Haru Haru', 'BIGBANG', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/3/1/31c0bc178874f507e52ccb8a84812da7_1449720766.jpg', 'https://res.cloudinary.com/thangtrn01/video/upload/v1682325147/spotify/songs/haru-haru_siqnle.mp3', NOW());
+
+INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES
+('Lạc Trôi (Masew Mix)', 'Sơn Tùng M-TP, Masew', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/covers/f/a/fa8586e9353a5f80c9d22c63a88d222b_1504987991.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325189/spotify/songs/Lac-Troi-Triple-D-Remix-Son-Tung-M-TP_dig9ig.mp3', 
+NOW()),
+('Chạy Ngay Đi', 'Sơn Tùng M-TP', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/a/6/8/b/a68b0bd411adc076ba6c3fb00203a1ee.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325151/spotify/songs/Chay-Ngay-Di-Son-Tung-M-TP_blph4m.mp3', 
+NOW()),
+('Anh Sai Rồi', 'Sơn Tùng M-TP', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/e/e/ee58fcc0ff45002b8d416bd7685809ce_1487040461.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325174/spotify/songs/Anh-Sai-Roi-Son-Tung-M-TP_mdfhki.mp3', 
+NOW()),
+('Khuôn Mặt Đáng Thương (Team Sơn Tùng M-TP - Slim V - DJ Trang Moon)', 'Sơn Tùng M-TP', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/covers/0/0/009f6dfa722d23c8a623e67ee714a4ef_1426491999.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325170/spotify/songs/Khuon-Mat-Dang-Thuong-Team-Son-Tung-M-TP-Slim-V-DJ-Trang-Moon-Son-Tung-M-TP_bkvrjo.mp3', 
+NOW()),
+('Em Của Ngày Hôm Qua (Slim V Remix)', 'Sơn Tùng M-TP', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/avatars/a/4/a40c3d3ebdb380b907546400905b35a0_1470191137.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325187/spotify/songs/Em-Cua-Ngay-Hom-Qua-Slim-V-Remix-Son-Tung-M-TP_e7ouop.mp3', 
+NOW());
+
+
+INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES
+('Chuyện Rằng', 'Thịnh Suy', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/e/9/5/a/e95af77ec80716c1337ba87341f8e08f.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325180/spotify/songs/Chuyen-Rang-Thinh-Suy_gtf4g7.mp3', 
+NOW()),
+('vaicaunoicokhiennguoithaydoi', 'GREY D, tlinh', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/4/5/1/e/451edeb56e86f4128d78323957b610ea.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325158/spotify/songs/vaicaunoicokhiennguoithaydoi-GREY-D-tlinh_frukgg.mp3', 
+NOW()),
+('để tôi ôm em bằng giai điệu này', 'Kai Đinh, MIN, GREY D', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/a/a/a/8/aaa8da7569916334eb4c73c153b17ad1.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325153/spotify/songs/de-toi-om-em-bang-giai-dieu-nay_m0jwt9.mp3', 
+NOW());
+
+INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES
+('Một Mình Vẫn Vui', 'Lê Ngọc Châu Anh', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/banner/a/3/8/1/a381bd80ee2365112781ed3309b10001.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325152/spotify/songs/mot-minh-van-vui_akvyiz.mp3', 
+NOW()),
+('Phải Lòng Anh (Dream Ver.)', 'MIN', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/a/c/c/a/acca108008c875e64fad124429bce234.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325161/spotify/songs/Phai-Long-Anh-Dream-Ver-MIN_xexnif.mp3', 
+NOW()),
+('Yêu Thầm (Live Performance)', 'Hoàng Yến Chibi, tlinh, TDK', 
+'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/4/6/9/7/469778b0b4ddc83474eeaf741bdb6ac8.jpg', 
+'https://res.cloudinary.com/thangtrn01/video/upload/v1682325179/spotify/songs/yeu-tham_lz18mj.mp3', 
+NOW());
+
 
 -- INSERT ALBUM_SONG
 SELECT * FROM ALBUM_SONG;
 INSERT INTO ALBUM_SONG(ALBUM_ID, SONG_ID) VALUES
 (1, 1),
 (1, 2),
-(1, 3);
+(1, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(3, 9),
+(3, 10),
+(3, 11),
+(4, 12),
+(4, 13),
+(4, 14);
 
-INSERT INTO ALBUM_SONG(ALBUM_ID, SONG_ID) VALUES
-(2, 4);
+
+
+
+
+
+
 
 -- INSERT FAVORITE
 INSERT INTO FAVORITE (USER_ID, SONG_ID) VALUES (1, 1);
@@ -192,15 +274,9 @@ INSERT INTO PLAYLIST (TITLE, IMAGE, USER_ID) VALUES
 ('LuonVuiTuoi', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/4/e/9/0/4e900a56a5dbf90e1f1cab539f68992f.jpg', '1'),
 ('Vinahey', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/2/4/5/3/24538985249cd4d3b324b4a4a09ad288.jpg', '1');
 
+
 -- INSERT PLAYLIST_SONG 
 SELECT * FROM PLAYLIST_SONG;
-
-SELECT S.*, PLS.PLAYLIST_ID FROM SONG S
-INNER JOIN PLAYLIST_SONG PLS ON PLS.SONG_ID = S.SONG_ID
-INNER JOIN PLAYLIST P ON PLS.PLAYLIST_ID = P.PLAYLIST_ID
-WHERE P.USER_ID = 1;
-
-
 INSERT INTO PLAYLIST_SONG (PLAYLIST_ID, SONG_ID) VALUES
 (1, 1),
 (1, 2),
@@ -210,34 +286,8 @@ INSERT INTO PLAYLIST_SONG (PLAYLIST_ID, SONG_ID) VALUES
 
 -- END INSERT
 
-
-
--- delete from album where id = 5;
-select * from album;
-select * from song;
-select * from album_song;
-
--- INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
--- ('Nhạc mới', 'Nhạc mới siêu hay', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/5/6/4/2/564287350da9c16aa401ea18a3c9d2cd.jpg', NOW(), 10);
-
-
--- QUERY
-
-SELECT * FROM ALBUM, ALBUM_SONG
-WHERE ALBUM.ALBUM_ID = ALBUM_SONG.ALBUM_ID; 
-
-SELECT * FROM SONG, ALBUM_SONG
-WHERE SONG.SONG_ID = ALBUM_SONG.SONG_ID;
-
-SELECT * FROM USER
-WHERE EMAIL = 'thang@gmail.com'
-AND PASSWORD = '123456';
-
-SELECT U.*, R.ROLE_NAME FROM USER U
-INNER JOIN ROLE R ON U.ROLE_ID = R.ROLE_ID;
-
-SELECT * FROM FAVORITE F
-INNER JOIN USER U ON F.USER_ID = U.USER_ID
-WHERE F.SONG_ID = 1;
-
+-- SELECT S.*, PLS.PLAYLIST_ID FROM SONG S
+-- INNER JOIN PLAYLIST_SONG PLS ON PLS.SONG_ID = S.SONG_ID
+-- INNER JOIN PLAYLIST P ON PLS.PLAYLIST_ID = P.PLAYLIST_ID
+-- WHERE P.USER_ID = 1;
 
