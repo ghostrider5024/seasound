@@ -54,6 +54,7 @@ CREATE TABLE ARTIST (
 CREATE TABLE ALBUM (
 	ALBUM_ID INT NOT NULL AUTO_INCREMENT,
     TITLE VARCHAR(255) NOT NULL,
+	ARTIST_NAMES VARCHAR(255),
 	DESCRIPTION VARCHAR(255),
     IMAGE VARCHAR(255) NOT NULL,
     RELEASE_DATE TIMESTAMP DEFAULT NOW(),
@@ -77,6 +78,12 @@ CREATE TABLE FAVORITE(
 	USER_ID INT,
     SONG_ID INT,
     PRIMARY KEY (USER_ID, SONG_ID)
+);
+
+CREATE TABLE BANNER(
+	BANNER_ID INT AUTO_INCREMENT,
+	IMAGE VARCHAR(255),
+	PRIMARY KEY (BANNER_ID)
 );
 
 -- FOREIGN KEY
@@ -150,7 +157,7 @@ INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE, ROLE_ID) VALUES
 ('Thắng Trần', 'thang@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg', 1);
 
 INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE) VALUES
-('Sơn Tung', 'st@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg');
+('Yamero', 'yamero@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg');
 
 
 
@@ -160,20 +167,20 @@ INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE) VALUES
 
 -- INSERT ALBUM
 select * from album;
-INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
-('Disco V', 'Âm hưởng Disco trở thành trào lưu của V-Pop ngày nay', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/5/6/4/2/564287350da9c16aa401ea18a3c9d2cd.jpg', NOW(), 10);
+INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Disco V', 'Sơn Tùng, Hoà Minzy, G-Dragon','Âm hưởng Disco trở thành trào lưu của V-Pop ngày nay', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/5/6/4/2/564287350da9c16aa401ea18a3c9d2cd.jpg', NOW(), 10);
 
-INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
-('2000s K-Pop', '2000s và những bản Hit K-Pop hay nhất', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/a/b/8/2ab897cbf80e6aed22a64f19e5ca029f.jpg', NOW(), 2);
+INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('2000s K-Pop', 'Sơn Tùng, Hoà Minzy, G-Dragon','2000s và những bản Hit K-Pop hay nhất', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/a/b/8/2ab897cbf80e6aed22a64f19e5ca029f.jpg', NOW(), 2);
 
-INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
-('Những Bài Hát Hay Nhất Của Sơn Tùng M-TP', 'Tuyển tập những ca khúc hay nhất của Sơn Tùng M-TP', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/3/9/e/c/39ec11680e2b34f7b58d271d468ae763.jpg', NOW(), 5);
+INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Những Bài Hát Hay Nhất Của Sơn Tùng M-TP', 'Sơn Tùng, Hoà Minzy, G-Dragon','Tuyển tập những ca khúc hay nhất của Sơn Tùng M-TP', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/3/9/e/c/39ec11680e2b34f7b58d271d468ae763.jpg', NOW(), 5);
 
-INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
-('Playlist Này Chill Phết', 'Va vào những giai điệu thư giãn của V-Pop', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/4/c/c/c/4ccc7780abb5e8e2de84218f721b7ad3.jpg', NOW(), 3);
+INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Playlist Này Chill Phết', 'Sơn Tùng, Hoà Minzy, G-Dragon','Va vào những giai điệu thư giãn của V-Pop', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/4/c/c/c/4ccc7780abb5e8e2de84218f721b7ad3.jpg', NOW(), 3);
 
-INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
-('Nhẹ Nhàng Cùng V-Pop', 'Thả mình cùng những giai điệu V-Pop nhẹ nhàng', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/5/c/f/25cf63ad362dc25bbe7d65a9ae94e803.jpg', NOW(), 3);
+INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
+('Nhẹ Nhàng Cùng V-Pop', 'Sơn Tùng, Hoà Minzy, G-Dragon','Thả mình cùng những giai điệu V-Pop nhẹ nhàng', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/2/5/c/f/25cf63ad362dc25bbe7d65a9ae94e803.jpg', NOW(), 3);
 
 
 
@@ -283,6 +290,26 @@ INSERT INTO PLAYLIST_SONG (PLAYLIST_ID, SONG_ID) VALUES
 (2, 2),
 (1, 3),
 (1, 4);
+
+-- INSERT BANNER
+INSERT INTO BANNER (IMAGE) VALUES
+('https://photo-zmp3.zmdcdn.me/banner/d/9/8/d/d98d85c62c2f37d8f564833129f3dfa8.jpg'),
+('https://photo-zmp3.zmdcdn.me/banner/5/7/4/0/57408963b27277d478fd073a832f932c.jpg'),
+('https://photo-zmp3.zmdcdn.me/banner/3/6/7/d/367d5143a557356c74049b57e2b80c8c.jpg');
+
+-- INSERT ARTIST
+INSERT INTO ARTIST (FULLNAME, DESCRIPTION, IMAGE, GENDER)
+VALUES 
+('Sơn Tùng MTP', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/8/a/a/b/8aab7a0386dd9c24b90adcc5ef5a7814.jpg', 'Nam'),
+('Bích Phương', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_webp/avatars/6/0/2/7/6027ba87bd6eb8e18a3abf17f651501e.jpg', 'Nữ');
+
+-- INSERT ALBUM_ARTIST
+INSERT INTO ALBUM_ARTIST (ALBUM_ID, ARTIST_ID)
+VALUES 
+(1, 1),
+(2, 1),
+(3, 2),
+(4, 2);
 
 -- END INSERT
 

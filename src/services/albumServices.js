@@ -49,10 +49,10 @@ const albumService = {
         })
     },
     
-    createAlbum: (title, description, image, songsId) => {
+    createAlbum: (title,artists, description, image, songsId) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const [result] = await pool.query(`INSERT INTO ALBUM(TITLE, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES (?, ?, ?, NOW(), 0)`, [title, description, image]);
+                const [result] = await pool.query(`INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES (?, ?, ?, ?, NOW(), 0)`, [title, artists, description, image]);
 
                 songsId.forEach(async songId => {
                     await pool.query(`INSERT INTO ALBUM_SONG(ALBUM_ID, SONG_ID) VALUES (?, ?)`, [result.insertId, songId])
@@ -60,7 +60,7 @@ const albumService = {
 
                 const [data] = await pool.query(`
                 SELECT 
-                a.ALBUM_ID, a.TITLE, a.DESCRIPTION, a.IMAGE, a.RELEASE_DATE,
+                a.ALBUM_ID, a.TITLE, a.ARTIST_NAMES, a.DESCRIPTION, a.IMAGE, a.RELEASE_DATE,
                 JSON_ARRAYAGG(JSON_OBJECT(
                     'SONG_ID', s.SONG_ID,
                     'TITLE', s.TITLE,

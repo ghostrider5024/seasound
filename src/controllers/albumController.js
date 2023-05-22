@@ -22,14 +22,16 @@ const albumController = {
     
     createAlbum: async(req, res) => {
         try {
-            const {title, description, image, songsId = []} = req.body;
+            const {title, description, image, artists, songsId = []} = req.body;
 
-            if(title.trim() == null || description.trim() == null || image.trim() == null) {
+            if(title.trim() == null || description.trim() == null || image.trim() == null || artists.trim() == null) {
                 return res.status(400).json({
                     error: true,
                     message: "Please complete all fields"
                 })
             }
+
+            console.log(title, description, image, artists, songsId)
             
             if(songsId.length <= 0) {
                 return res.status(400).json({
@@ -38,7 +40,7 @@ const albumController = {
                 })
             }
 
-            const response = await albumServices.createAlbum(title, description, image, songsId);
+            const response = await albumServices.createAlbum(title, artists, description, image,  songsId);
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
