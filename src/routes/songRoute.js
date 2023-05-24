@@ -8,6 +8,7 @@ router.get('/songs/:id', songController.getSongById);
 router.post('/songs', songController.createSong);
 router.delete('/songs/:id', songController.deleteSong);
 router.get('/songs-search', songController.searchSong);
+router.get('/songs-favorite/:userId', songController.getFavoriteList);
 router.post('/songs-favorite', songController.favoriteSong);
 
 module.exports = router;

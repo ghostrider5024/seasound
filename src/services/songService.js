@@ -130,7 +130,25 @@ const songServices = {
                 reject(error);
             }
         })
-    }
+    },
+
+    getFavoriteList: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [favorite] = await pool.query(`
+                    SELECT * FROM FAVORITE F, SONG S WHERE USER_ID = ? AND F.SONG_ID = S.SONG_ID
+                `, [userId]);
+
+                resolve({
+                    error: false,
+                    message: 'Get favorite list song success.',
+                    data: favorite
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    } 
 }
 
 module.exports = songServices;

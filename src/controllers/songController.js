@@ -83,6 +83,24 @@ const songController = {
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
         }
+    },
+
+    getFavoriteList: async(req, res) => {
+        try {
+            const {userId} = req.params;
+
+            if(!userId) {
+                return res.status(400).json({
+                    error: true,
+                    message: "Please complete all fields"
+                });
+            }
+
+            const response = await songServices.getFavoriteList(userId);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
     }
 }
 
