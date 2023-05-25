@@ -46,7 +46,8 @@ const playlistService = {
 
                     data = {
                         ...playlist[0],
-                        SONGS: []
+                        SONGS: [],
+                        TOTAL_SONG: 0
                     }
                 }                
 
