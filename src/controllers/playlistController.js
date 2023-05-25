@@ -20,7 +20,7 @@ const playlistController = {
 
     createPlaylist: async (req, res) => {
         try {
-            const defaultImg = "https://res.cloudinary.com/thangtrn01/image/upload/v1660211933/images/walmxopbbepl1ar9k38j.jpg";
+            const defaultImg = "https://res.cloudinary.com/thangtrn01/image/upload/v1685005998/spotify/images/album_default_rbtx6a.png";
             const {title, image = defaultImg, userId} = req.body;
 
             if(!title || !image || !userId) {
