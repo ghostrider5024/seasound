@@ -35,12 +35,16 @@ const authService = {
                 var data;
                 if(auth.length > 0) {
                     data = auth[0]
+                }else {
+                    return reject({
+                        message: "Email or password is incorrect"
+                    })
                 }
 
                 resolve({
                     error: data ? false : true,
                     message: data ? 'Login success' : 'Invalid email or password', 
-                    data: data ? data : null
+                    data: data
                 })
             } catch (error) {
                 reject(error);
