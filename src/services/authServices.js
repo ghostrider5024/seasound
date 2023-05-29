@@ -84,12 +84,12 @@ const authService = {
         });
     },
 
-    edit: (userId, fullName, password, image = null) => {
+    edit: (userId, fullName, image = null) => {
         return new Promise(async (resolve, reject) => {
             try {
                 await pool.query(`
-                    UPDATE USER SET FULLNAME = ?, PASSWORD = ? WHERE USER_ID = ?; 
-                `, [fullName, password, userId])
+                    UPDATE USER SET FULLNAME = ? WHERE USER_ID = ?; 
+                `, [fullName, userId])
                 
                 if(image !== null) {
                     await pool.query(`
@@ -97,17 +97,19 @@ const authService = {
                     `, [image, userId])
                 }
 
-                const [profile] = await pool.query(`
+                const [result] = await pool.query(`
                 SELECT U.*, R.ROLE_NAME FROM USER U, ROLE R
                 WHERE 
                     U.ROLE_ID = R.ROLE_ID AND
                     U.USER_ID = ?
                 `, [userId])
 
+                const {PASSWORD, ...profile} = result[0];
+
                 resolve({
                     error: false,
                     message: 'Update successfully.', 
-                    data: profile[0]
+                    data: profile
                 })
             } catch (error) {
                 reject(error);

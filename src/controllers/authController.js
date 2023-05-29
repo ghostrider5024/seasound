@@ -51,7 +51,7 @@ const authController = {
     edit: async (req, res) => {
         try {
             const userId = req.params.userId;
-            const {fullname, password} = req.body;
+            const {fullname} = req.body;
             let image;
 
             if(req?.file?.path) {
@@ -62,7 +62,7 @@ const authController = {
 
             console.log(image?.secure_url)
 
-            const response = await authService.edit(userId, fullname, password, image?.secure_url);
+            const response = await authService.edit(userId, fullname, image?.secure_url);
 
             res.status(200).json(response)
         } catch (error) {
