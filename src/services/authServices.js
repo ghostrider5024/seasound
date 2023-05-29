@@ -83,6 +83,37 @@ const authService = {
 
         });
     },
+
+    edit: (userId, fullName, password, image = null) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await pool.query(`
+                    UPDATE USER SET FULLNAME = ?, PASSWORD = ? WHERE USER_ID = ?; 
+                `, [fullName, password, userId])
+                
+                if(image !== null) {
+                    await pool.query(`
+                        UPDATE USER SET IMAGE = ? WHERE USER_ID = ?; 
+                    `, [image, userId])
+                }
+
+                const [profile] = await pool.query(`
+                SELECT U.*, R.ROLE_NAME FROM USER U, ROLE R
+                WHERE 
+                    U.ROLE_ID = R.ROLE_ID AND
+                    U.USER_ID = ?
+                `, [userId])
+
+                resolve({
+                    error: false,
+                    message: 'Update successfully.', 
+                    data: profile[0]
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
 }
 
 module.exports = authService;

@@ -157,7 +157,7 @@ INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE, ROLE_ID) VALUES
 ('Thắng Trần', 'thang@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg', 1);
 
 INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE) VALUES
-('Yamero', 'yamero@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg');
+('Admin', 'admin@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg');
 
 
 

@@ -1,4 +1,5 @@
 const authService = require('../services/authServices');
+const cloudinary = require('../middleware/cloudinary');
 
 const authController = {
     getAllUser: async (req, res) => {
@@ -42,6 +43,28 @@ const authController = {
 
             const response = await authService.register(fullname, email, password, image);
             res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
+    },
+
+    edit: async (req, res) => {
+        try {
+            const userId = req.params.userId;
+            const {fullname, password} = req.body;
+            let image;
+
+            if(req.file.path) {
+                image = await cloudinary.uploader.upload(req.file.path, {
+                    folder: 'spotify/images',
+                });
+            }
+
+            console.log(image.secure_url)
+
+            const response = await authService.edit(userId, fullname, password, image.secure_url);
+
+            res.status(200).json(response)
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
         }
