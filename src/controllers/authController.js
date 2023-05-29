@@ -54,7 +54,7 @@ const authController = {
             const {fullname, password} = req.body;
             let image;
 
-            if(req.file.path) {
+            if(req?.file?.path) {
                 image = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'spotify/images',
                 });
@@ -62,7 +62,7 @@ const authController = {
 
             console.log(image.secure_url)
 
-            const response = await authService.edit(userId, fullname, password, image.secure_url);
+            const response = await authService.edit(userId, fullname, password, image?.secure_url);
 
             res.status(200).json(response)
         } catch (error) {
