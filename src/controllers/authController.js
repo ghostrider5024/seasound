@@ -60,7 +60,7 @@ const authController = {
                 });
             }
 
-            console.log(image.secure_url)
+            console.log(image?.secure_url)
 
             const response = await authService.edit(userId, fullname, password, image?.secure_url);
 
