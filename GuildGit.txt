@@ -6,3 +6,16 @@ gỡ reposity: git remote remove name-repo
 git add .
 git commit -m
 git push -u name-repo name-brand
+
+
+Đẩy code lên git
+git remote add name-breand url-repo
+git add .
+git commit -m
+git push -u name-repo name-brand
+
+Cập nhật code
+git status
+git add .
+git commit -m "Message"
+git pust name-repo name-brand

@@ -57,6 +57,7 @@ const authController = {
             if(req?.file?.path) {
                 image = await cloudinary.uploader.upload(req.file.path, {
                     folder: 'SeaSound/User/Image',
+                    public_id: 'Image_' + userId
                 });
             }
 
