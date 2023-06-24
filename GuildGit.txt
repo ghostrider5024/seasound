@@ -1,0 +1,8 @@
+git init
+git brand -M master
+xem project có được push lên github nào: git remote -v
+gỡ reposity: git remote remove name-repo
+đưa các file đã thay đổi vào trạng thái chờ commit: 
+git add .
+git commit -m
+git push -u name-repo name-brand
