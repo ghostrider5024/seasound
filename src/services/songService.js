@@ -46,10 +46,28 @@ const songServices = {
         })
     },
 
-    createSong: (title, artists, image, songUrl) => {
+    // createSong: (title, artists, image, songUrl) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, NOW())`, [title, artists, image, songUrl]);
+
+    //             const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
+
+    //             resolve({
+    //                 error: songs ? false : true,
+    //                 message: songs ? 'Created success' : 'Created error', 
+    //                 data:  data.length > 0 ? data[0] : null 
+    //             })
+    //         } catch (error) {
+    //             reject(error);
+    //         }
+    //     })
+    // },
+
+    createSong: (title, artists, tag) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, NOW())`, [title, artists, image, songUrl]);
+                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG) VALUES (?, ?, ?)`, [title, artists, tag]);
 
                 const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
 
@@ -57,6 +75,44 @@ const songServices = {
                     error: songs ? false : true,
                     message: songs ? 'Created success' : 'Created error', 
                     data:  data.length > 0 ? data[0] : null 
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
+    editSong: (songId, title, artists, tag, image, audio) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await pool.query(`
+                    UPDATE SONG SET TITLE = ?, ARTIST_NAMES = ?, TAG = ?, IMAGE = ?, SONG_URL = ? WHERE SONG_ID = ?; 
+                `, [title, artists, tag, image, audio, songId])
+                
+                if(image !== null) {
+                    await pool.query(`
+                    UPDATE SONG SET IMAGE = ? WHERE SONG_ID = ?; 
+                `, [image, songId])
+                }
+
+                if(audio !== null){
+                    await pool.query(`
+                    UPDATE SONG SET SONG_URL = ? WHERE SONG_ID = ?; 
+                `, [audio, songId])
+                }
+
+                const [result] = await pool.query(`
+                SELECT * 
+                FROM SONG 
+                WHERE SONG_ID = ? 
+                `, [songId])
+
+                const {PASSWORD, ...data} = result[0];
+
+                resolve({
+                    error: false,
+                    message: 'Update successfully.', 
+                    data: data
                 })
             } catch (error) {
                 reject(error);
