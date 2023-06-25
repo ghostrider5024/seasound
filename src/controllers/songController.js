@@ -79,8 +79,8 @@ const songController = {
     editSong: async (req, res) => {
         try {
             const songId = req.params.songId;
-            const {title, artists, tag, imagePath, audioPath} = req.body;
-            const response = await songServices.editSong(songId, title, artists, tag, imagePath, audioPath);
+            const {title, artists, tag, image, song} = req.body;
+            const response = await songServices.editSong(songId, title, artists, tag, image, song);
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
