@@ -20,61 +20,61 @@ const songController = {
         }
     },
 
-    // createSong: async(req, res) => {
-    //     try {
-    //         const {title, artists, image, song} = req.body;
-    //         if(title.trim() == null || artists.trim() == null || image.trim() == null || song.trim() == null) {
-    //             return res.status(400).json({
-    //                 error: true,
-    //                 message: "Please complete all fields"
-    //             });
-    //         }
-    //         const response = await songServices.createSong(title, artists, image, song);
-
-    //         res.status(200).json(response);
-    //     } catch (error) {
-    //         res.status(500).json({error: true, message: error.message});
-    //     }
-    // },
-
     createSong: async(req, res) => {
         try {
-            const {title, artists, tag} = req.body;
-            let audioFile, imageFile;
-
-            if(title.trim() == null || artists.trim() == null) {
+            const {title, artists, tag, image, song} = req.body;
+            if(title.trim() == null || artists.trim() == null || image.trim() == null || song.trim() == null) {
                 return res.status(400).json({
                     error: true,
                     message: "Please complete all fields"
                 });
             }
-
-            const response = await songServices.createSong(title, artists, tag);
-            let audioID = response.data.SONG_ID;
-            if(response?.data)
-            {
-                if (req.file) {
-                    if (req.file.fieldname === 'image') {
-                        imageFile = await cloudinary.uploader.upload(req.file.path, {
-                        folder: 'SeaSound/Song/Image',
-                        public_id: 'Image_' + audioID
-                      });
-                    } else if (req.file.fieldname === 'audio') {
-                        audioFile = await cloudinary.uploader.upload(req.file.path, {
-                        folder: 'SeaSound/Song/Audio',
-                        public_id: 'Audio_' + audioID
-                      });
-                    }
-                }
-            }
-
-            songServices.editSong(audioID, title, artists, tag, imageFile?.secure_url, audioFile?.secure_url)
+            const response = await songServices.createSong(title, artists, tag, image, song);
 
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
         }
     },
+
+    // createSong: async(req, res) => {
+    //     try {
+    //         const {title, artists, tag} = req.body;
+    //         let audioFile, imageFile;
+
+    //         if(title.trim() == null || artists.trim() == null) {
+    //             return res.status(400).json({
+    //                 error: true,
+    //                 message: "Please complete all fields"
+    //             });
+    //         }
+
+    //         const response = await songServices.createSong(title, artists, tag);
+    //         let audioID = response.data.SONG_ID;
+    //         if(response?.data)
+    //         {
+    //             if (req.file) {
+    //                 if (req.file.fieldname === 'image') {
+    //                     imageFile = await cloudinary.uploader.upload(req.file.path, {
+    //                     folder: 'SeaSound/Song/Image',
+    //                     public_id: 'Image_' + audioID
+    //                   });
+    //                 } else if (req.file.fieldname === 'audio') {
+    //                     audioFile = await cloudinary.uploader.upload(req.file.path, {
+    //                     folder: 'SeaSound/Song/Audio',
+    //                     public_id: 'Audio_' + audioID
+    //                   });
+    //                 }
+    //             }
+    //         }
+
+    //         songServices.editSong(audioID, title, artists, tag, imageFile?.secure_url, audioFile?.secure_url)
+
+    //         res.status(200).json(response);
+    //     } catch (error) {
+    //         res.status(500).json({error: true, message: error.message});
+    //     }
+    // },
 
     deleteSong: async (req, res) => {
         try {

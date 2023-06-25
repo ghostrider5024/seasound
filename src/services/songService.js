@@ -46,28 +46,10 @@ const songServices = {
         })
     },
 
-    // createSong: (title, artists, image, songUrl) => {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, NOW())`, [title, artists, image, songUrl]);
-
-    //             const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
-
-    //             resolve({
-    //                 error: songs ? false : true,
-    //                 message: songs ? 'Created success' : 'Created error', 
-    //                 data:  data.length > 0 ? data[0] : null 
-    //             })
-    //         } catch (error) {
-    //             reject(error);
-    //         }
-    //     })
-    // },
-
-    createSong: (title, artists, tag) => {
+    createSong: (title, artists, tag, image, songUrl) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG) VALUES (?, ?, ?)`, [title, artists, tag]);
+                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, NOW())`, [title, artists, tag, image, songUrl]);
 
                 const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
 
@@ -81,6 +63,24 @@ const songServices = {
             }
         })
     },
+
+    // createSong: (title, artists, tag) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG) VALUES (?, ?, ?)`, [title, artists, tag]);
+
+    //             const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
+
+    //             resolve({
+    //                 error: songs ? false : true,
+    //                 message: songs ? 'Created success' : 'Created error', 
+    //                 data:  data.length > 0 ? data[0] : null 
+    //             })
+    //         } catch (error) {
+    //             reject(error);
+    //         }
+    //     })
+    // },
 
     editSong: (songId, title, artists, tag, image, audio) => {
         return new Promise(async (resolve, reject) => {
