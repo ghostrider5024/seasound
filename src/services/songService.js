@@ -49,7 +49,7 @@ const songServices = {
     createSong: (title, artists, tag, image, songUrl) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, NOW())`, [title, artists, tag, image, songUrl]);
+                const [songs] = await pool.query(`INSERT INTO SONG(TITLE, ARTIST_NAMES, TAG, IMAGE, SONG_URL, RELEASE_DATE) VALUES (?, ?, ?, ?, ?, NOW())`, [title, artists, tag, image, songUrl]);
 
                 const [data] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songs.insertId]);
 

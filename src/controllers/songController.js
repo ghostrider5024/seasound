@@ -76,6 +76,18 @@ const songController = {
     //     }
     // },
 
+    editSong: async (req, res) => {
+        try {
+            const songID = req.params.songid;
+            const {title, artists, tag, imagePath, audioPath} = req.body;
+            const response = await songServices.editSong(songId, title, artists, tag, imagePath, audioPath);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
+    },
+   
+
     deleteSong: async (req, res) => {
         try {
             const songId = +req.params.id;
