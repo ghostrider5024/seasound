@@ -78,7 +78,7 @@ const songController = {
 
     editSong: async (req, res) => {
         try {
-            const songID = req.params;
+            const songId = req.params.songId;
             const {title, artists, tag, imagePath, audioPath} = req.body;
             const response = await songServices.editSong(songId, title, artists, tag, imagePath, audioPath);
             res.status(200).json(response);
