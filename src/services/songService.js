@@ -86,8 +86,8 @@ const songServices = {
         return new Promise(async (resolve, reject) => {
             try {
                 await pool.query(`
-                    UPDATE SONG SET TITLE = ?, ARTIST_NAMES = ?, TAG = ?, IMAGE = ?, SONG_URL = ? WHERE SONG_ID = ?; 
-                `, [title, artists, tag, image, audio, songId])
+                    UPDATE SONG SET TITLE = ?, ARTIST_NAMES = ?, TAG = ? WHERE SONG_ID = ?; 
+                `, [title, artists, tag, songId])
                 
                 if(image !== null) {
                     await pool.query(`
