@@ -101,18 +101,9 @@ const songController = {
 
     searchSong: async (req, res) => {
         try {
-            const songName = req.query.name;
+            const query = req.query.querykey;
 
-            console.log(req.query);
-
-            if(!songName?.trim()) {
-                return res.status(400).json({
-                    error: true,
-                    message: "Please complete song name fields"
-                });
-            }
-
-            const response = await songServices.searchSong(songName);
+            const response = await songServices.searchSong(query);
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
