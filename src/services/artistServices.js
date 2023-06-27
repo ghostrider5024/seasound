@@ -1,6 +1,23 @@
 const pool = require('../config/DBConnection');
 
 const artistService = {
+
+    getAllArtist: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [data] = await pool.query(`SELECT * FROM ARTIST`);
+
+                resolve({
+                    error: data ? false : true,
+                    message: data ? 'Get all song success' : 'Not found any song', 
+                    data: data
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
     getArtistById: (artistId) => {
         return new Promise(async (resolve, reject) => {
             try {

@@ -135,11 +135,14 @@ const songServices = {
         })
     },
 
-    searchSong: (songName) => {
+    searchSong: (querykey) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const [songs] = await pool.query(`
-                    SELECT * FROM SONG WHERE TITLE LIKE '%${songName}%'
+                    SELECT * 
+                    FROM SONG 
+                    WHERE TITLE LIKE '%${querykey}%' 
+                    OR TAG LIKE '%${querykey}%'
                 `);
 
                 var data;
