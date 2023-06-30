@@ -28,6 +28,13 @@ const artistService = {
                     AND REGION LIKE '%${region}%'
                 `);
 
+                console.log(`
+                SELECT * 
+                FROM ARTIST 
+                WHERE FULLNAME LIKE '%${fullname}%' 
+                AND REGION LIKE '%${region}%'
+                `);
+
                 var data;
                 if(songs.length > 0) {
                     data = songs;
