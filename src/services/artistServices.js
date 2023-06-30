@@ -9,8 +9,34 @@ const artistService = {
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Get all song success' : 'Not found any song', 
+                    message: data ? 'Get all artist success' : 'Not found any artist', 
                     data: data
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
+    searchArtist: (querykey) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [songs] = await pool.query(`
+                    SELECT * 
+                    FROM ARTIST 
+                    WHERE FULLNAME LIKE '%${querykey}%' 
+                    OR DESCRIPTION LIKE '%${querykey}%'
+                `);
+
+                var data;
+                if(songs.length > 0) {
+                    data = songs;
+                }
+
+                resolve({
+                    error: data ? false : true,
+                    message: data ? 'Find success' : 'Not found', 
+                    data:  data ? data : null 
                 })
             } catch (error) {
                 reject(error);
