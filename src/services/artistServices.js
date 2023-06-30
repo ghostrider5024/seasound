@@ -18,14 +18,14 @@ const artistService = {
         })
     },
 
-    searchArtist: (querykey) => {
+    searchArtist: (fullname, region) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const [songs] = await pool.query(`
                     SELECT * 
                     FROM ARTIST 
-                    WHERE FULLNAME LIKE '%${querykey}%' 
-                    OR DESCRIPTION LIKE '%${querykey}%'
+                    WHERE FULLNAME LIKE '%${fullname}%' 
+                    AND REGION LIKE '%${region}%'
                 `);
 
                 var data;

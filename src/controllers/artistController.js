@@ -22,9 +22,10 @@ const artistController = {
 
     searchArtist: async (req, res) => {
         try {
-            const query = req.query.querykey;
+            const fullname = req.query.fullname;
+            const region = req.query.region;
 
-            const response = await artistService.searchArtist(query);
+            const response = await artistService.searchArtist(fullname, region);
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
