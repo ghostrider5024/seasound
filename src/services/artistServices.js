@@ -44,6 +44,30 @@ const artistService = {
         })
     },
 
+    artistRegions: (querykey) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [songs] = await pool.query(`
+                    SELECT DISTINCT REGION 
+                    FROM ARTIST 
+                `);
+
+                var data;
+                if(songs.length > 0) {
+                    data = songs;
+                }
+
+                resolve({
+                    error: data ? false : true,
+                    message: data ? 'Find success' : 'Not found', 
+                    data:  data ? data : null 
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
     getArtistById: (artistId) => {
         return new Promise(async (resolve, reject) => {
             try {
