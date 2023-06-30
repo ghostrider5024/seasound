@@ -44,7 +44,7 @@ const artistService = {
         })
     },
 
-    artistRegions: (querykey) => {
+    artistRegions: () => {
         return new Promise(async (resolve, reject) => {
             try {
                 const [songs] = await pool.query(`

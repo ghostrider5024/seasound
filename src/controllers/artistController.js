@@ -33,9 +33,7 @@ const artistController = {
 
     artistRegions: async (req, res) => {
         try {
-            const query = req.query.querykey;
-
-            const response = await artistService.artistRegions(query);
+            const response = await artistService.artistRegions();
             res.status(200).json(response);
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
