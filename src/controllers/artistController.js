@@ -57,7 +57,18 @@ const artistController = {
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
         }
-    }
+    },
+
+    editArtist: async (req, res) => {
+        try {
+            const artistId = req.params.artistId;
+            const {fullname, description, region, image, gender} = req.body;
+            const response = await artistService.editArtist(artistId, fullname, description, region, image, gender);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
+    },
 
     
 

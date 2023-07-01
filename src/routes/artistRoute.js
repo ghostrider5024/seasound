@@ -11,5 +11,6 @@ router.get('/artists-search', artistController.searchArtist);
 router.get('/artist-regions', artistController.artistRegions);
 
 router.post('/artist', artistController.createArtist);
+router.put('/artist/edit/:artistId', artistController.editArtist)
 
 module.exports = router;

@@ -117,6 +117,33 @@ const artistService = {
         })
     },
 
+    editArtist: (artistId, fullname, description, region, image, gender) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await pool.query(`
+                    UPDATE ARTIST SET FULLNAME = ?, DESCRIPTION = ?, REGION = ?, IMAGE = ?,  GENDER = ?
+                    WHERE ARTIST_ID = ?; 
+                `, [fullname, description, region, image, gender, artistId])
+
+                const [result] = await pool.query(`
+                SELECT * 
+                FROM ARTIST 
+                WHERE ARTIST_ID = ? 
+                `, [artistId])
+
+                const {PASSWORD, ...data} = result[0];
+
+                resolve({
+                    error: false,
+                    message: 'Update successfully.', 
+                    data: data
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
 }
 
 module.exports = artistService;
