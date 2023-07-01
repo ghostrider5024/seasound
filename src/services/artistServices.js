@@ -144,6 +144,21 @@ const artistService = {
         })
     },
 
+    deleteArtist: (artistId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [data] = await pool.query(`DELETE FROM ARTIST WHERE ARTIST_ID = ?`, [artistId]);
+
+                resolve({
+                    error: data ? false : true,
+                    message: data ? 'Dedeted success' : 'Deleted error', 
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
 }
 
 module.exports = artistService;

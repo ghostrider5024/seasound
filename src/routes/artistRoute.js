@@ -12,5 +12,6 @@ router.get('/artist-regions', artistController.artistRegions);
 
 router.post('/artist', artistController.createArtist);
 router.put('/artist/edit/:artistId', artistController.editArtist)
+router.delete('/artist/delete/:artistId', artistController.deleteArtist)
 
 module.exports = router;

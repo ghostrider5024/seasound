@@ -70,6 +70,16 @@ const artistController = {
         }
     },
 
+    deleteArtist: async (req, res) => {
+        try {
+            const artistId = req.params.artistId;
+            const response = await artistService.deleteArtist(artistId);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
+    }
+
     
 
 }
