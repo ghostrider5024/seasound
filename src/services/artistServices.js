@@ -38,13 +38,7 @@ const artistService = {
                 resolve({
                     error: data ? false : true,
                     message: data ? 'Find success' : 'Not found', 
-                    data:  data ? data : `
-                    SELECT * 
-                    FROM ARTIST 
-                    WHERE FULLNAME LIKE '%${fullname}%' 
-                    AND REGION LIKE '%${region}%'
-                    AND GENDER LIKE '%${gender}%'
-                ` 
+                    data:  data ? data : `SELECT * FROM ARTIST WHERE FULLNAME LIKE '%${fullname}%' AND REGION LIKE '%${region}%' AND GENDER LIKE '%${gender}%'` 
                 })
             } catch (error) {
                 reject(error);
