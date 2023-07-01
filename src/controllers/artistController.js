@@ -40,6 +40,23 @@ const artistController = {
         } catch (error) {
             res.status(500).json({error: true, message: error.message});
         }
+    },
+
+    createArtist: async(req, res) => {
+        try {
+            const {fullname, description, region, image, gender} = req.body;
+            if(fullname.trim() == null || region.trim() == null || gender.trim() == null) {
+                return res.status(400).json({
+                    error: true,
+                    message: "Please complete all fields {fullname, region, gender}"
+                });
+            }
+            const response = await artistService.createArtist(fullname, description, region, image, gender);
+
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
     }
 
     

@@ -38,7 +38,8 @@ const artistService = {
                 resolve({
                     error: data ? false : true,
                     message: data ? 'Find success' : 'Not found', 
-                    data:  data ? data : `SELECT * FROM ARTIST WHERE FULLNAME LIKE '%${fullname}%' AND REGION LIKE '%${region}%' AND GENDER LIKE '%${gender}%'` 
+                    data:  data ? data : null
+                    // `SELECT * FROM ARTIST WHERE FULLNAME LIKE '%${fullname}%' AND REGION LIKE '%${region}%' AND GENDER LIKE '%${gender}%'` 
                 })
             } catch (error) {
                 reject(error);
@@ -94,7 +95,28 @@ const artistService = {
                 reject(error);
             }
         })
-    }
+    },
+
+    createArtist: (fullname, description, region, image, gender) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [items] = await pool.query(`
+                INSERT INTO ARTIST (FULLNAME, DESCRIPTION, REGION, IMAGE, GENDER) 
+                VALUES (?, ?, ?, ?, ?)`, [fullname, description, region, image, gender]);
+
+                const [data] = await pool.query(`SELECT * FROM ARTIST WHERE ARTIST_ID = ?`, [items.insertId]);
+
+                resolve({
+                    error: items ? false : true,
+                    message: items ? 'Created success' : 'Created error', 
+                    data:  data.length > 0 ? data[0] : null 
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
 }
 
 module.exports = artistService;
