@@ -29,12 +29,6 @@ const artistService = {
                     AND GENDER LIKE '%${gender}%'
                 `);
 
-                console.log(`
-                SELECT * 
-                FROM ARTIST 
-                WHERE FULLNAME LIKE '%${fullname}%' 
-                AND REGION LIKE '%${region}%'
-                `);
 
                 var data;
                 if(songs.length > 0) {
@@ -44,7 +38,13 @@ const artistService = {
                 resolve({
                     error: data ? false : true,
                     message: data ? 'Find success' : 'Not found', 
-                    data:  data ? data : null 
+                    data:  data ? data : `
+                    SELECT * 
+                    FROM ARTIST 
+                    WHERE FULLNAME LIKE '%${fullname}%' 
+                    AND REGION LIKE '%${region}%'
+                    AND GENDER LIKE '%${gender}%'
+                ` 
                 })
             } catch (error) {
                 reject(error);
