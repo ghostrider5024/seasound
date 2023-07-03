@@ -110,6 +110,17 @@ const songController = {
         }
     },
 
+    getSongArtists: async (req, res) => {
+        try {
+            const songId = req.params.songId;
+
+            const response = await songServices.getSongArtists(songId);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({error: true, message: error.message});
+        }
+    },
+
     favoriteSong: async (req, res) => {
         try {
             const {userId, songId} = req.body;

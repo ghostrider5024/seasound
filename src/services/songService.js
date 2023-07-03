@@ -161,6 +161,32 @@ const songServices = {
         })
     },
 
+    getSongArtists: (songId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const [songArtist] = await pool.query(`
+                    SELECT A.* 
+                    FROM SONG_ARTIST SA, ARTIST A 
+                    WHERE SA.ARTIST_ID = A.ARTIST_ID AND
+                    SA.SONG_ID = ${songId}
+                `);
+
+                var data;
+                if(songArtist.length > 0) {
+                    data = songArtist;
+                }
+
+                resolve({
+                    error: data ? false : true,
+                    message: data ? 'Find success' : 'Not found', 
+                    data:  data ? data : null 
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
     favoriteSong: (userId, songId) => {
         return new Promise(async (resolve, reject) => {
             try {
