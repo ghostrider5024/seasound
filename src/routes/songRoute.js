@@ -8,6 +8,7 @@ router.get('/songs/:id', songController.getSongById);
 
 router.post('/songs', songController.createSong);
 router.put('/songs/edit/:songId', songController.editSong)
+router.put('/songs/update-artistnames/:songId', songController.updateArtistNames)
 router.delete('/songs/:id', songController.deleteSong);
 
 router.get('/songs-search', songController.searchSong);

@@ -8,7 +8,7 @@ const songServices = {
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Get all song success' : 'Not found any song', 
+                    message: data ? 'Get all song success' : 'Not found any song',
                     data: data
                 })
             } catch (error) {
@@ -21,11 +21,11 @@ const songServices = {
         return new Promise(async (resolve, reject) => {
             try {
                 const [song] = await pool.query(`SELECT * FROM SONG WHERE SONG_ID = ?`, [songId]);
-                
+
                 var data;
-                if(song.length > 0) {
-                    data = {...song[0]};
-                    
+                if (song.length > 0) {
+                    data = { ...song[0] };
+
                     const [favorites] = await pool.query(`
                         SELECT * FROM FAVORITE F
                         INNER JOIN USER U ON F.USER_ID = U.USER_ID
@@ -37,8 +37,8 @@ const songServices = {
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Get song success' : 'Not found song with id = ' + songId, 
-                    data:  data ? data : null 
+                    message: data ? 'Get song success' : 'Not found song with id = ' + songId,
+                    data: data ? data : null
                 })
             } catch (error) {
                 reject(error);
@@ -55,8 +55,8 @@ const songServices = {
 
                 resolve({
                     error: songs ? false : true,
-                    message: songs ? 'Created success' : 'Created error', 
-                    data:  data.length > 0 ? data[0] : null 
+                    message: songs ? 'Created success' : 'Created error',
+                    data: data.length > 0 ? data[0] : null
                 })
             } catch (error) {
                 reject(error);
@@ -88,14 +88,14 @@ const songServices = {
                 await pool.query(`
                     UPDATE SONG SET TITLE = ?, ARTIST_NAMES = ?, TAG = ? WHERE SONG_ID = ?; 
                 `, [title, artists, tag, songId])
-                
-                if(image !== null) {
+
+                if (image !== null) {
                     await pool.query(`
                     UPDATE SONG SET IMAGE = ? WHERE SONG_ID = ?; 
                 `, [image, songId])
                 }
 
-                if(audio !== null){
+                if (audio !== null) {
                     await pool.query(`
                     UPDATE SONG SET SONG_URL = ? WHERE SONG_ID = ?; 
                 `, [audio, songId])
@@ -107,11 +107,42 @@ const songServices = {
                 WHERE SONG_ID = ? 
                 `, [songId])
 
-                const {PASSWORD, ...data} = result[0];
+                const { PASSWORD, ...data } = result[0];
 
                 resolve({
                     error: false,
-                    message: 'Update successfully.', 
+                    message: 'Update successfully.',
+                    data: data
+                })
+            } catch (error) {
+                reject(error);
+            }
+        })
+    },
+
+    updateArtistNames: (songId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await pool.query(`
+                UPDATE SONG
+                SET ARTIST_NAMES = ( SELECT GROUP_CONCAT(FULLNAME SEPARATOR ' - ')
+                    FROM ARTIST A, SONG_ARTIST SA
+                    WHERE A.ARTIST_ID = SA.ARTIST_ID AND
+                    SA.SONG_ID = ?)
+                    WHERE SONG_ID = ?
+                `, [songId, songId])
+
+                const [result] = await pool.query(`
+                SELECT * 
+                FROM SONG 
+                WHERE SONG_ID = ? 
+                `, [songId])
+
+                const { PASSWORD, ...data } = result[0];
+
+                resolve({
+                    error: false,
+                    message: 'Update artistnames successfully.',
                     data: data
                 })
             } catch (error) {
@@ -127,7 +158,7 @@ const songServices = {
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Dedeted success' : 'Deleted error', 
+                    message: data ? 'Dedeted success' : 'Deleted error',
                 })
             } catch (error) {
                 reject(error);
@@ -146,14 +177,14 @@ const songServices = {
                 `);
 
                 var data;
-                if(songs.length > 0) {
+                if (songs.length > 0) {
                     data = songs;
                 }
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Find success' : 'Not found', 
-                    data:  data ? data : null 
+                    message: data ? 'Find success' : 'Not found',
+                    data: data ? data : null
                 })
             } catch (error) {
                 reject(error);
@@ -172,14 +203,14 @@ const songServices = {
                 `);
 
                 var data;
-                if(songArtist.length > 0) {
+                if (songArtist.length > 0) {
                     data = songArtist;
                 }
 
                 resolve({
                     error: data ? false : true,
-                    message: data ? 'Find success' : 'Not found', 
-                    data:  data ? data : null 
+                    message: data ? 'Find success' : 'Not found',
+                    data: data ? data : null
                 })
             } catch (error) {
                 reject(error);
@@ -195,7 +226,7 @@ const songServices = {
                 `, [userId, songId]);
 
                 var isLike = false;
-                if(favorite.length > 0) {
+                if (favorite.length > 0) {
                     await pool.query(`
                         DELETE FROM FAVORITE WHERE USER_ID = ? AND SONG_ID = ?
                     `, [userId, songId]);
@@ -209,7 +240,7 @@ const songServices = {
 
                 resolve({
                     error: false,
-                    message: isLike ? 'Like song success' : 'Unlike song success', 
+                    message: isLike ? 'Like song success' : 'Unlike song success',
                 })
             } catch (error) {
                 reject(error);
@@ -233,7 +264,7 @@ const songServices = {
                 reject(error);
             }
         })
-    } 
+    }
 }
 
 module.exports = songServices;

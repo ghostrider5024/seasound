@@ -1,29 +1,29 @@
 const songServices = require('../services/songServices');
 
 const songController = {
-    getAllSong: async(req, res) => {
+    getAllSong: async (req, res) => {
         try {
             const response = await songServices.getAllSong();
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
-    getSongById: async(req, res) => {
+    getSongById: async (req, res) => {
         try {
             const songId = +req.params.id;
             const response = await songServices.getSongById(songId);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
-    createSong: async(req, res) => {
+    createSong: async (req, res) => {
         try {
-            const {title, artists, tag, image, song} = req.body;
-            if(title.trim() == null || artists.trim() == null || image.trim() == null || song.trim() == null) {
+            const { title, artists, tag, image, song } = req.body;
+            if (title.trim() == null || artists.trim() == null || image.trim() == null || song.trim() == null) {
                 return res.status(400).json({
                     error: true,
                     message: "Please complete all fields"
@@ -33,7 +33,7 @@ const songController = {
 
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
@@ -79,14 +79,25 @@ const songController = {
     editSong: async (req, res) => {
         try {
             const songId = req.params.songId;
-            const {title, artists, tag, image, song} = req.body;
+            const { title, artists, tag, image, song } = req.body;
             const response = await songServices.editSong(songId, title, artists, tag, image, song);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
-   
+
+
+    updateArtistNames: async (req, res) => {
+        try {
+            const songId = req.params.songId;
+            const response = await songServices.updateArtistNames(songId);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: true, message: error.message });
+        }
+    },
+
 
     deleteSong: async (req, res) => {
         try {
@@ -94,10 +105,10 @@ const songController = {
             const response = await songServices.deleteSong(songId);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
-   
+
 
     searchSong: async (req, res) => {
         try {
@@ -106,7 +117,7 @@ const songController = {
             const response = await songServices.searchSong(query);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
@@ -117,15 +128,15 @@ const songController = {
             const response = await songServices.getSongArtists(songId);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
     favoriteSong: async (req, res) => {
         try {
-            const {userId, songId} = req.body;
+            const { userId, songId } = req.body;
 
-            if(!userId || !songId) {
+            if (!userId || !songId) {
                 return res.status(400).json({
                     error: true,
                     message: "Please complete all fields"
@@ -135,15 +146,15 @@ const songController = {
             const response = await songServices.favoriteSong(userId, songId);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     },
 
-    getFavoriteList: async(req, res) => {
+    getFavoriteList: async (req, res) => {
         try {
-            const {userId} = req.params;
+            const { userId } = req.params;
 
-            if(!userId) {
+            if (!userId) {
                 return res.status(400).json({
                     error: true,
                     message: "Please complete all fields"
@@ -153,7 +164,7 @@ const songController = {
             const response = await songServices.getFavoriteList(userId);
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({error: true, message: error.message});
+            res.status(500).json({ error: true, message: error.message });
         }
     }
 }
