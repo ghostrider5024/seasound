@@ -1,4 +1,4 @@
-const songServices = require('../services/songService');
+const songServices = require('../services/songServices');
 
 const songController = {
     getAllSong: async(req, res) => {

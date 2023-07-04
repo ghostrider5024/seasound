@@ -1,5 +1,5 @@
 
-USE seasound;
+USE bo3ztsrnctuqyde70voe;
 
 CREATE TABLE ROLE (
 	ROLE_ID INT NOT NULL AUTO_INCREMENT,
@@ -52,6 +52,7 @@ CREATE TABLE ARTIST (
 	ARTIST_ID INT NOT NULL AUTO_INCREMENT,
 	FULLNAME VARCHAR(255) NOT NULL,
     DESCRIPTION VARCHAR(255),
+	REGION		VARCHAR(10),
 	IMAGE VARCHAR(255),
     GENDER VARCHAR(10) CHECK (GENDER = N'Nam' OR GENDER = N'Nữ'),
     PRIMARY KEY (ARTIST_ID)
@@ -158,86 +159,14 @@ CREATE INDEX IDX_SONG ON SONG (TITLE);
 
 -- END INDEXING
 
-
--- START TRIGGER
-
-DELIMITER $$
-CREATE TRIGGER TRIG_INSERT_SONG
-AFTER INSERT ON SONG_ARTIST
-FOR EACH ROW
-BEGIN
-    DECLARE artist_names VARCHAR(255);
-    
-    SELECT GROUP_CONCAT(FULLNAME SEPARATOR ' - ') INTO artist_names
-    FROM ARTIST A, SONG_ARTIST SA
-    WHERE A.ARTIST_ID = SA.ARTIST_ID AND
-    SA.SONG_ID = NEW.SONG_ID;
-    
-    UPDATE SONG
-    SET ARTIST_NAMES = artist_names
-    WHERE SONG_ID = NEW.SONG_ID;
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE TRIGGER TRIG_UPDATE_SONG
-AFTER UPDATE ON SONG_ARTIST
-FOR EACH ROW
-BEGIN
-    DECLARE artist_names VARCHAR(255);
-    
-    SELECT GROUP_CONCAT(FULLNAME SEPARATOR ' - ') INTO artist_names
-    FROM ARTIST A, SONG_ARTIST SA
-    WHERE A.ARTIST_ID = SA.ARTIST_ID AND
-    SA.SONG_ID = OLD.SONG_ID;
-    
-    UPDATE SONG
-    SET ARTIST_NAMES = artist_names
-    WHERE SONG_ID = OLD.SONG_ID;
-
-	 SELECT GROUP_CONCAT(FULLNAME SEPARATOR ' - ') INTO artist_names
-    FROM ARTIST A, SONG_ARTIST SA
-    WHERE A.ARTIST_ID = SA.ARTIST_ID AND
-    SA.SONG_ID = NEW.SONG_ID;
-    
-    UPDATE SONG
-    SET ARTIST_NAMES = artist_names
-    WHERE SONG_ID = NEW.SONG_ID;
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE TRIGGER TRIG_DELETE_SONG
-AFTER DELETE ON SONG_ARTIST
-FOR EACH ROW
-BEGIN
-    DECLARE artist_names VARCHAR(255);
-    
-    SELECT GROUP_CONCAT(FULLNAME SEPARATOR ' - ') INTO artist_names
-    FROM ARTIST A, SONG_ARTIST SA
-    WHERE A.ARTIST_ID = SA.ARTIST_ID AND
-    SA.SONG_ID = OLD.SONG_ID;
-    
-    UPDATE SONG
-    SET ARTIST_NAMES = artist_names
-    WHERE SONG_ID = OLD.SONG_ID;
-	
-END$$
-DELIMITER ;
-
-
--- END TRIGGER
-
 -- insert database
 
 -- INSERT ROLE
-SELECT * FROM ROLE;
 INSERT INTO ROLE (ROLE_NAME) VALUES 
 ('Admin'),
 ('User');
 
 -- INSERT USER
-SELECT * FROM USER;
 INSERT INTO USER (FULLNAME, EMAIL, PASSWORD, IMAGE, ROLE_ID) VALUES
 ('Thắng Trần', 'thang@gmail.com', '123456', 'https://static.vecteezy.com/system/resources/previews/001/840/612/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg', 1);
 
@@ -251,7 +180,6 @@ UPDATE USER SET FULLNAME = 'Admin', Email = 'admin@gmail.com', PASSWORD = '12345
 
 
 -- INSERT ALBUM
-select * from album;
 INSERT INTO ALBUM(TITLE, ARTIST_NAMES, DESCRIPTION, IMAGE, RELEASE_DATE, TOTAL_LISTEN) VALUES
 ('Disco V', 'Sơn Tùng, Hoà Minzy, G-Dragon','Âm hưởng Disco trở thành trào lưu của V-Pop ngày nay', 'https://photo-resize-zmp3.zmdcdn.me/w300_r1x1_jpeg/cover/5/6/4/2/564287350da9c16aa401ea18a3c9d2cd.jpg', NOW(), 10);
 
@@ -331,7 +259,6 @@ NOW());
 
 
 -- INSERT ALBUM_SONG
-SELECT * FROM ALBUM_SONG;
 INSERT INTO ALBUM_SONG(ALBUM_ID, SONG_ID) VALUES
 (1, 1),
 (1, 2),
@@ -354,7 +281,6 @@ INSERT INTO ALBUM_SONG(ALBUM_ID, SONG_ID) VALUES
 INSERT INTO FAVORITE (USER_ID, SONG_ID) VALUES (1, 1);
 
 -- INSERT PLAYLIST
-SELECT * FROM PLAYLIST;
 
 INSERT INTO PLAYLIST (TITLE, IMAGE, USER_ID) VALUES 
 ('LuonVuiTuoi', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/4/e/9/0/4e900a56a5dbf90e1f1cab539f68992f.jpg', '1'),
@@ -362,7 +288,6 @@ INSERT INTO PLAYLIST (TITLE, IMAGE, USER_ID) VALUES
 
 
 -- INSERT PLAYLIST_SONG 
-SELECT * FROM PLAYLIST_SONG;
 INSERT INTO PLAYLIST_SONG (PLAYLIST_ID, SONG_ID) VALUES
 (1, 1),
 (1, 2),
@@ -377,22 +302,22 @@ INSERT INTO BANNER (IMAGE) VALUES
 ('https://photo-zmp3.zmdcdn.me/banner/3/6/7/d/367d5143a557356c74049b57e2b80c8c.jpg');
 
 -- INSERT ARTIST
-INSERT INTO ARTIST (FULLNAME, DESCRIPTION, IMAGE, GENDER)
+INSERT INTO ARTIST (FULLNAME, REGION, IMAGE, GENDER)
 VALUES 
-('Sơn Tùng MTP', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/8/a/a/b/8aab7a0386dd9c24b90adcc5ef5a7814.jpg', 'Nam'),
-('Bích Phương', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/6/0/2/7/6027ba87bd6eb8e18a3abf17f651501e.jpg', 'Nữ'),
-('Amee', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/b/f/d/7/bfd7f1b7118f1229391e2cbc419594bc.jpg', 'Nữ'),
-('Masew', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/a/7/2/7/a727e5448143da8d2b8cf67f8ef6ab57.jpg', 'Nam'),
-('Thịnh Suy', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/8/1/4/b/814bd489b26a00c14c4931d10b302afd.jpg', 'Nam'),
-('GREY D', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/e/e/b/8/eeb8663fb09e5b1f32491352e252495b.jpg', 'Nam'),
-('tlinh', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/d/c/6/7/dc67d75a543439f9d0232174ded85bd3.jpg', 'Nữ'),
-('Kai Đinh', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/0/a/d/f/0adf3c50531b65edcfe1cdd29dc5ae78.jpg', 'Nam'),
-('MIN', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/e/f/6/2ef6b4fc14d359656cde9d5e09842b57.jpg', 'Nữ'),
-('Lê Ngọc Châu Anh', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/e/a/5/0/ea5042af8a3e135018182132178db03d.jpg', 'Nữ'),
-('Hoàng Yến Chibi', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/1/9/d/219d773b2987a03c351ba4361c4a7fe4.jpg', 'Nữ'),
-('TDK', 'Nghệ sĩ Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/4/4/0/9/44096bf776065aef8832c2d8cc71e72f.jpg', 'Nam'),
-('MC Mong, Mellow', 'Nghệ sĩ USUK', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/a/8/2/f/a82f681ec3dc34b353561f630062914d.jpg', 'Nam'),
-('Big Bang', 'Nghệ sĩ Kpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/2/3/3/223327eb3eca92cc50d58aaf985f17f3.jpg', 'Nam');
+('Sơn Tùng MTP', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/8/a/a/b/8aab7a0386dd9c24b90adcc5ef5a7814.jpg', 'Nam'),
+('Bích Phương', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/6/0/2/7/6027ba87bd6eb8e18a3abf17f651501e.jpg', 'Nữ'),
+('Amee', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/b/f/d/7/bfd7f1b7118f1229391e2cbc419594bc.jpg', 'Nữ'),
+('Masew', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/a/7/2/7/a727e5448143da8d2b8cf67f8ef6ab57.jpg', 'Nam'),
+('Thịnh Suy', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/8/1/4/b/814bd489b26a00c14c4931d10b302afd.jpg', 'Nam'),
+('GREY D', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/e/e/b/8/eeb8663fb09e5b1f32491352e252495b.jpg', 'Nam'),
+('tlinh', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/d/c/6/7/dc67d75a543439f9d0232174ded85bd3.jpg', 'Nữ'),
+('Kai Đinh', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/0/a/d/f/0adf3c50531b65edcfe1cdd29dc5ae78.jpg', 'Nam'),
+('MIN', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/e/f/6/2ef6b4fc14d359656cde9d5e09842b57.jpg', 'Nữ'),
+('Lê Ngọc Châu Anh', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/e/a/5/0/ea5042af8a3e135018182132178db03d.jpg', 'Nữ'),
+('Hoàng Yến Chibi', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/1/9/d/219d773b2987a03c351ba4361c4a7fe4.jpg', 'Nữ'),
+('TDK', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/4/4/0/9/44096bf776065aef8832c2d8cc71e72f.jpg', 'Nam'),
+('MC Mong, Mellow', 'USUK', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/a/8/2/f/a82f681ec3dc34b353561f630062914d.jpg', 'Nam'),
+('Big Bang', 'Kpop', 'https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/avatars/2/2/3/3/223327eb3eca92cc50d58aaf985f17f3.jpg', 'Nam');
 
 -- INSERT SONG_ARTIST
 INSERT INTO SONG_ARTIST(SONG_ID, ARTIST_ID) VALUES
