@@ -66,6 +66,9 @@ CREATE TABLE ALBUM (
     IMAGE VARCHAR(255) NOT NULL,
     RELEASE_DATE TIMESTAMP DEFAULT NOW(),
     TOTAL_LISTEN INT,
+	HOME_ROWINDEX	 INT,
+	HOME_COLUMNINDEX INT,
+	BANNER_INDEX	 INT,
     PRIMARY KEY (ALBUM_ID)
 );
 
@@ -92,6 +95,8 @@ CREATE TABLE BANNER(
 	IMAGE VARCHAR(255),
 	PRIMARY KEY (BANNER_ID)
 );
+
+
 
 -- FOREIGN KEY
 
@@ -304,7 +309,7 @@ INSERT INTO BANNER (IMAGE) VALUES
 -- INSERT ARTIST
 INSERT INTO ARTIST (FULLNAME, REGION, IMAGE, GENDER)
 VALUES 
-('Sơn Tùng MTP', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/8/a/a/b/8aab7a0386dd9c24b90adcc5ef5a7814.jpg', 'Nam'),
+('Sơn Tùng M-TP', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/8/a/a/b/8aab7a0386dd9c24b90adcc5ef5a7814.jpg', 'Nam'),
 ('Bích Phương', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/6/0/2/7/6027ba87bd6eb8e18a3abf17f651501e.jpg', 'Nữ'),
 ('Amee', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/b/f/d/7/bfd7f1b7118f1229391e2cbc419594bc.jpg', 'Nữ'),
 ('Masew', 'Vpop', 'https://photo-resize-zmp3.zmdcdn.me/W600_r1x1_webp/avatars/a/7/2/7/a727e5448143da8d2b8cf67f8ef6ab57.jpg', 'Nam'),
