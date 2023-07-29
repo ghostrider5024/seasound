@@ -8,6 +8,11 @@ const homeService = {
                     SELECT * FROM BANNER ORDER BY BANNER_ID DESC LIMIT 3
                 `);
 
+                const [albumTitles] = await pool.query(`
+                    SELECT * 
+                    FROM HOME_ALBUM 
+            `   );
+
                 const [albums] = await pool.query(`
                     SELECT * 
                     FROM ALBUM 
@@ -24,6 +29,7 @@ const homeService = {
                     message: 'Get home successfully',
                     data: {
                         banner,
+                        albumTitles,
                         albums,
                         songs
                     }
