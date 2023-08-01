@@ -88,7 +88,7 @@ const homeService = {
                 // `, [title, albumIndex])
 
 
-                const [data] = await pool.query(`
+                const data = await pool.query(`
                 SELECT * 
                 FROM ALBUM 
                 WHERE ALBUM_ID = ? 
